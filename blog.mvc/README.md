@@ -1,7 +1,15 @@
-Prerequisites
-=============
+Local vs Docker
+===============
+Depending on your level of comfort with command line tools, you can download the .Net core sdk and develop locally or you can take advantage of docker and use a docker image for your local development environment.
+The following command will offer a command prompt into a pre-defined image.
+
+```docker run -p 8000:80 -e "ASPNETCORE_URLS=http://+:80" -it --rm microsoft/aspnetcore-build```
+
+Prerequisites (if choosing to develop locally)
+==============================================
 * .net core sdk
 * IDE - any text editor will suffice
+
 
 Lesson 1 - Build a basic app using dot net core
 ================================================
@@ -97,6 +105,7 @@ Now Add the db connection string to the project (startup.cs)
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
         }
 ```
+__Note: The connection string in the example code snippets reference the sql server instance as localhost. Please replace this with the value of ```--name``` in the docker run command for sql server (```sqlexpress```)__
 
 ### Create the database migration (code first)
 ```
@@ -143,6 +152,7 @@ COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "blog.mvc.dll"]
 ```
 
+__Note: Already completed if developing in docker__
 Replace references to ```localhost``` in the DB connection string (Startup.cs & Models/Model.cs) with the value of ```--name``` in the docker run command for sql server (```sqlexpress```)
 
 Build and run the blog.mvc docker image 
