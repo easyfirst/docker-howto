@@ -11,8 +11,9 @@ dotnet new mvc -o blog.mvc -au None -f netcoreapp2.0
 dotnet run
 ```
 
-Ctrl-c the running app and add the following dependencies
+Ctrl-c the running app, cd into the blog.mvc folder and add the following dependencies
 ```
+cd blog.mvc/
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
