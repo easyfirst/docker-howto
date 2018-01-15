@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 4
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - name: blog-mvc
+        image: {{ template "gateway_image" . }}
+        env:
+          - name: SQL_DB_HOST
+            value: sql-server
+          - name: SQL_DB_USER
+            value: "sa"
+          - name: SQL_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}
+                key: sa_password
+        ports:
+          - name: http
+            containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: 5
+        volumeMounts:
+          - mountPath: "/tmp/data"
+            name: data
