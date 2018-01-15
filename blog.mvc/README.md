@@ -105,7 +105,7 @@ Now Add the db connection string to the project (startup.cs)
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
         }
 ```
-__Note: The connection string in the example code snippets reference the sql server instance as localhost. Please replace this with the value of ```--name``` in the docker run command for sql server (```sqlexpress```)__
+__Note: The connection string in the example code snippets reference the sql server instance as localhost. Please replace this with the value of ```--name``` in the docker run command for sql server (```sqlexpress```) ONLY IF you are developing in docker__
 
 ### Create the database migration (code first)
 ```
