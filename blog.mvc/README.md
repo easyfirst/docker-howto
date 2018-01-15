@@ -3,7 +3,7 @@ Local vs Docker
 Depending on your level of comfort with command line tools, you can download the .Net core sdk and develop locally or you can take advantage of docker and use a docker image for your local development environment.
 The following command will offer a command prompt into a pre-defined image.
 
-```docker run -p 8000:80 -e "ASPNETCORE_URLS=http://+:80" -it --rm microsoft/aspnetcore-build```
+```docker run -p 5000:80 -e "ASPNETCORE_URLS=http://+:80" -it --rm microsoft/aspnetcore-build```
 
 Prerequisites (if choosing to develop locally)
 ==============================================
