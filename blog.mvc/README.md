@@ -1,9 +1,9 @@
 Local vs Docker
 ===============
-Depending on your level of comfort with command line tools, you can download the .Net core sdk and develop locally or you can take advantage of docker and use a docker image for your local development environment.
-The following command will offer a command prompt into a pre-defined image.
+Depending on your level of comfort with command line tools & docker, you can download the .Net core sdk and develop locally or you can take advantage of docker and use a docker image for your local development environment.
+The following command will offer a command prompt into a pre-defined image that contains a bind mount for easy file access.
 
-```docker run -p 5000:80 -e "ASPNETCORE_URLS=http://+:80" -it --rm microsoft/aspnetcore-build```
+```dotnet docker run -p 5000:80 -e "ASPNETCORE_URLS=http://+:80" -v $(pwd):/home/apps -it --rm microsoft/aspnetcore-build```
 
 Prerequisites (if choosing to develop locally)
 ==============================================
@@ -94,9 +94,14 @@ namespace blog.Mvc.Models
 }
 ```
 
-Now Add the db connection string to the project (startup.cs)
+Now Add the db connection string to the project (startup.cs).
+Don't forget the using statements.
 ```
- public void ConfigureServices(IServiceCollection services)
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using blog.Mvc.Models;
+...
+public void ConfigureServices(IServiceCollection services)
         {
             var connection = @"Server=localhost;User Id=sa;Password=Tot@11y5ecr3t;Database=bloggingDB;";
             
@@ -105,11 +110,18 @@ Now Add the db connection string to the project (startup.cs)
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
         }
 ```
-__Note: The connection string in the example code snippets reference the sql server instance as localhost. Please replace this with the value of ```--name``` in the docker run command for sql server (```sqlexpress```) ONLY IF you are developing in docker__
+Note: The connection string in the example code snippets reference the sql server instance as localhost. This will not work if you are developing in docker so you have 2 options:
+* create a private network and add the sqlexpress & blog process.
+    - ```docker network create blog-network```
+    - ```docker network connect <id of private-test> <id of sqlexpress>```
+    - ```docker network connect <id of private-test> <id of blog.mvc>```
+    - Then replace this with the value of ```--name``` in the docker run command for sql server (```sqlexpress```). This is the more robust approach.
+* ```docker network inspect bridge``` and get the ipaddress of sqlexpress
+
 
 ### Create the database migration (code first)
 ```
-dotnet ef migrations add initialCreate
+dotnet ef migrations add initialCreate --verbose
 ```
 
 ### Build a basic Web UI
@@ -189,7 +201,7 @@ services:
     depends_on:  
       - "sqlexpress"         
     ports:
-      - "8080:80"
+      - "5000:80"
 ```
 
 run the following commands to spin up the environment.
