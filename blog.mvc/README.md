@@ -160,9 +160,6 @@ COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "blog.mvc.dll"]
 ```
 
-__Note: Already completed if developing in docker__
-Replace references to ```localhost``` in the DB connection string (Startup.cs & Models/Model.cs) with the value of ```--name``` in the docker run command for sql server (```sqlexpress```)
-
 Build and run the blog.mvc docker image
 ```
 docker build -t blog.mvc:latest .
