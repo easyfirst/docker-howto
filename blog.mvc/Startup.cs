@@ -25,7 +25,7 @@ namespace blog.mvc
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = @"Server=sqlexpress;User Id=sa;Password=Tot@11y5ecr3t;Database=bloggingDB;";
-            
+
             services.AddMvc();
 
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
