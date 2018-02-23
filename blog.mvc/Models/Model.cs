@@ -18,7 +18,8 @@ namespace blog.Mvc.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connection = @"Server=sqlexpress;User Id=sa;Password=Tot@11y5ecr3t;Database=bloggingDB;";
+            var connection = db.ConnectionString();
+            // var connection = @"Server=sqlexpress;User Id=sa;Password=Tot@11y5ecr3t;Database=bloggingDB;";
             optionsBuilder.UseSqlServer(connection);
         }
 

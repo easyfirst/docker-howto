@@ -1,0 +1,25 @@
+#!/bin/bash 
+
+set -e
+
+if [[ "$1" == "" ]] ; then
+    echo "usage: $0 imagename..."
+    exit 1
+fi
+
+if [[ "${DOCKER_CERT_PATH}" =~ "minikube" ]] ; then
+    echo "Already using minikube's docker.  Nothing to push!"
+    exit
+else
+    echo "Not using minikube's docker; preparing to push"
+    echo "Consider sourcing 'minikube docker-env' in your shell to speed up local deploy"
+fi
+
+
+for imagename in $* ; do
+    if [[ ! $imagename =~ ":" ]] ; then
+        imagename="$imagename:latest"
+    fi
+    echo Pushing $imagename...
+    docker save $imagename | (eval $(minikube docker-env) && docker load)
+done

@@ -24,7 +24,8 @@ namespace blog.mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=sqlexpress;User Id=sa;Password=Tot@11y5ecr3t;Database=bloggingDB;";
+
+            var connection = db.ConnectionString();
             
             services.AddMvc();
 

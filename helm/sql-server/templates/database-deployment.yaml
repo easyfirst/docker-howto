@@ -38,7 +38,7 @@ spec:
         - name: SA_PASSWORD
           valueFrom:
               secretKeyRef:
-                name: {{ template "fullname" . }}
+                name: sql-server-pass
                 key: sa_password
         ports:
         - containerPort: 1433
