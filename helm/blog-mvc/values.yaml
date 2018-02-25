@@ -2,7 +2,7 @@
 # if they don't already exist on the parent node.
 blog:
    imageName: blog.mvc
-   imageTag: master-1
+   imageTag: master-2
    pullPolicy: Always
 
 ingress: LoadBalancer

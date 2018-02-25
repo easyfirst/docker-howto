@@ -18,5 +18,5 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Print the Blog container image name in the format: repo/image:tag
 */}}
 {{- define "blog_image" -}}
-{{- printf "%s:%s" .Values.blog.imageName .Values.blog.imageTag -}}
+{{- printf "eu.gcr.io/development-186617/%s:%s" .Values.blog.imageName .Values.blog.imageTag -}}
 {{- end -}}

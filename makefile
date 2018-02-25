@@ -16,6 +16,12 @@ deploy-blog:
 		--namespace $(K8S_NAMESPACE) \
 		--values=./helm/blog-mvc/values-local.yaml
 
+.PHONY: deploy-blog-prod
+deploy-blog-prod:
+	@helm upgrade blog-ui ./helm/blog-mvc \
+		--install \
+		--namespace $(K8S_NAMESPACE)
+
 .PHONY: build-deploy-blog
 build-deploy-blog: blog-mvc-image minikube-push deploy-blog
 

@@ -5,7 +5,6 @@ metadata:
 spec:
   selector:
     app: sql-server
-    tier: database
   ports:
   - protocol: TCP
     port: 1433
